@@ -26,11 +26,11 @@ export  function updateBoard(index: number) {
     }
 }
 export function empezarDeNuevo() {
-    const [board, setBoard] = useState(Array(9).fill(null))
+    const [, setBoard] = useState(Array(9).fill(null))
     
-    const [turn, setTurn] = useState(TURNS.X)
+    const [, setTurn] = useState(TURNS.X)
     
-    const [winner, setWinner] = useState<string>('')
+    const [, setWinner] = useState<string>('')
     setBoard(Array(9).fill(null))
     setTurn(TURNS.X)
     setWinner('')
