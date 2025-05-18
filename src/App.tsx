@@ -1,49 +1,43 @@
 import { useState } from 'react'
+import { Square } from './components/Square'
+import { WinnerModal } from './components/WinnerModal'
+import { TURNS } from './constants'
+import { checkWinner } from './logic/checkWinner'
 
-const TURNS = {
-  X: 'X',
-  O: 'O'
-}
 
-
-type Square = {
-  children?: string
-  value?: string
-  isSelected?: boolean
-  updateBoard?: (index:number) => void
-  index?: number
-}
-
-function Square({ children, isSelected, updateBoard, index }: Square) {
-  const classname = `square ${isSelected ? 'is-selected' : ''}`
-
-  const handleClick = () => {
-    if (updateBoard && index !== undefined) {
-      updateBoard(index)
-    }
-  }
-
-  return (
-    <div className={classname} onClick={handleClick}>
-      {children}
-    </div>
-  )
-}
 
 
 function App() {
   const [board, setBoard] = useState(Array(9).fill(null))
 
   const [turn, setTurn] = useState(TURNS.X)
+
+  const [winner, setWinner] = useState<string>('')
+
+  
   
   function updateBoard(index: number) {
-    if (board[index]) return
+    if (board[index] || winner) return
     const newBoard = [...board]
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
     newBoard[index] = turn
     setBoard(newBoard)
     setTurn(newTurn)
+
+    const newWinner = checkWinner(newBoard)
+    if (newWinner) {
+      setWinner(newWinner)
+    }else if (newBoard.every(square => square !== null)) {
+      setWinner('tie')
+    }
   }
+
+  function empezarDeNuevo() {
+    setBoard(Array(9).fill(null))
+    setTurn(TURNS.X)
+    setWinner('')
+  }
+
   return (
     <main className='board'>
       <h1>Tic Tac Toe</h1>
@@ -71,6 +65,11 @@ function App() {
           {TURNS.O}
         </Square>
       </section>
+      
+        <WinnerModal
+          winner={winner}
+          resetGame={empezarDeNuevo}/>
+      
     </main>
   )
 }
