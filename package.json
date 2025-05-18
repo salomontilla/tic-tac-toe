@@ -1,9 +1,9 @@
 {
+  "homepage": "https://salomontilla.github.io/tic-tac-toe",
   "name": "tic-tac-toe",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://salomontilla.github.io/tic-tac-toe",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
